@@ -57,14 +57,24 @@ const Feed = () => {
           It looks like there are currently no new users in your feed.
         </p>
         <p className="text-gray-400 mb-6">
-          Refresh the page or check back later to see updates!
+            check back later to see updates!!
         </p>
-        <button
+  
+        <p className="text-gray-400 flex items-center mb-6">
+              Users can also explore this website and create an account here! 
+            <img 
+                 src="https://em-content.zobj.net/source/noto-emoji-animations/344/smiling-face-with-smiling-eyes_1f60a.gif" 
+                 alt="Smiley Face" 
+                 className="w-6 h-6 ml-2"
+            />
+        </p>
+
+        {/* <button
           className="mt-4 bg-purple-500 text-white px-6 py-2 rounded-lg shadow hover:bg-purple-600 transition duration-300 ease-in-out"
           onClick={() => window.location.reload()} // Reloads the page
         >
           Refresh
-        </button>
+        </button> */}
         </div>
       </div>
     );
