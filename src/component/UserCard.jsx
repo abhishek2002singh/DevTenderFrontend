@@ -27,6 +27,7 @@ const UserCard = ({ user }) => {
     
      
       <div className={`flex-grow p-4 transition-all duration-300 ${isSidebarOpen ? "lg:ml-64" : ""}`}>
+        <h1 className="text-2xl text-center font-bold m-7">Suggested for you add new friends</h1>
         <div className="flex  justify-center items-center">
           <div className="card w-full max-w-md bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:-translate-y-1 hover:shadow-2xl">
             <figure className="relative">

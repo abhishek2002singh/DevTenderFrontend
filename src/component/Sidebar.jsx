@@ -17,8 +17,11 @@ const Sidebar = () => {
     { path: "/app/connection", label: "Connections", icon: <FaUser size={30} /> },
     { path: "/app/notification", label: "Notifications", icon: <FaBell size={30} /> },
     { path: "/app/request", label: "Requests", icon: <FaSearch size={30} /> },
+    { path: "/app/getreel", label: "GetReel", icon: <FaSearch size={30} /> },
     { path: "/app/message", label: "Messages", icon: <FaCommentDots size={30} /> },
     { path: "/app/profile", label: "Profile", icon: <FaUser size={30} /> },
+    { path: "/app/addFile", label: "AddFile", icon: <FaUser size={30} /> },
+    { path: "/app/addreel", label: "AddReel", icon: <FaUser size={30} /> },
 
   ];
 

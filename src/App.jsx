@@ -18,6 +18,9 @@ import Contact from './component/Contact';
 import PreLoginHandle from './component/PreLoginHandle';
 import Notifications from './component/Notifications';
 import Message from './component/Message'
+import AddFile from './component/AddFile';
+import AddReel from './component/AddReel'
+import GetReel from './component/GetReel'
 
 
 
@@ -35,6 +38,9 @@ function App() {
             <Route index element={<Feed />} /> {/* Default child */}
             
             <Route path="profile" element={<Profile />} />
+            <Route path="addFile" element={<AddFile />} />
+            <Route path="addreel" element={<AddReel />} />
+            <Route path="getreel" element={<GetReel />} />
             <Route path="EditProfile" element={<EditProfile />} />
             <Route path="connection" element={<Connection />} />
             <Route path="notification" element={<Notifications/>} />

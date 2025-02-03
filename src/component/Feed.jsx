@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import{addFeed} from '../utils/feedSlice'
 import { useEffect } from "react"
 import UserCard from "./UserCard"
+import GetPost from "./GetPost"
 
 
 const Feed = () => {
@@ -85,6 +86,7 @@ const Feed = () => {
   return feed && (
     <div >
       <UserCard user={feed[0]}/>
+      <GetPost />
     </div>
   )
 }

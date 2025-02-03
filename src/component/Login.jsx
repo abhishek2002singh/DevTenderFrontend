@@ -39,8 +39,12 @@ const Login = () => {
         { emailId, password },
         { withCredentials: true }
       );
+
+      console.log("login response is "+ res )
       dispatch(addUser(res.data));
+      
       navigate("/app");
+
     } catch (err) {
       console.error(err);
       setError("Failed to log in. Please check your credentials.");
