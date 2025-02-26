@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/Constant";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -21,7 +23,7 @@ const Login = () => {
     const isPasswordValid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(password);
 
     if (!isEmailValid) return "Email is not valid";
-    if (!isPasswordValid) return "Password must contain at least 8 characters, including uppercase, lowercase, special characters and numbers.  example -- Seth@1234";
+    if (!isPasswordValid) return "Password must contain at least 8 characters, including uppercase, lowercase, special characters and numbers. Example -- Seth@1234";
     return null;
   };
 
@@ -29,6 +31,7 @@ const Login = () => {
     const validationError = checkValidationData(emailId, password);
     if (validationError) {
       setError(validationError);
+      toast.error(validationError);
       return;
     }
     setError(null); // Clear any previous error
@@ -40,14 +43,13 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      console.log("login response is "+ res )
       dispatch(addUser(res.data));
-      
+      toast.success("Login successful!");
       navigate("/app");
-
     } catch (err) {
       console.error(err);
       setError("Failed to log in. Please check your credentials.");
+      toast.error("Login failed! "+err?.response?.data);
     }
   };
 
@@ -55,6 +57,7 @@ const Login = () => {
     const validationError = checkValidationData(emailId, password);
     if (validationError) {
       setError(validationError);
+      toast.error(validationError);
       return;
     }
     setError(null); // Clear any previous error
@@ -65,16 +68,20 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
+
       dispatch(addUser(res.data.data));
+      toast.success("Signup successful!");
       navigate("/app");
     } catch (err) {
       console.error(err);
       setError("Failed to sign up. Please try again.");
+      toast.error("Signup failed! "+err?.response?.data);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <ToastContainer position="top-right" autoClose={3000} />
       <section className="flex flex-col md:flex-row items-center p-8 md:p-16 bg-gray-800 text-white rounded-lg shadow-lg max-w-6xl w-full">
         {/* Image Section */}
         <div className="md:w-1/2 w-full flex justify-center">
@@ -94,9 +101,7 @@ const Login = () => {
           <div className="text-center md:text-left mb-8">
             <h2 className="text-3xl font-bold">{isSignup ? "Register" : "Log In"}</h2>
             <p className="text-sm text-gray-400">
-              {isSignup
-                ? "Welcome! Please create your account."
-                : "Welcome back, please log in."}
+              {isSignup ? "Welcome! Please create your account." : "Welcome back, please log in."}
             </p>
           </div>
 
@@ -128,7 +133,7 @@ const Login = () => {
             onChange={(e) => setEmailId(e.target.value)}
             className="w-full p-3 mb-4 text-gray-900 bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-          <p className="text-red-500 text-sm mb-4">{error}</p>
+
           <input
             type="password"
             placeholder="Password"
@@ -136,8 +141,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-3 mb-6 text-gray-900 bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-
-          <p className="text-red-500 text-sm mb-4">{error}</p>
 
           <button
             onClick={isSignup ? handleSignup : handleLogin}
@@ -152,8 +155,6 @@ const Login = () => {
               onClick={() => setIsSignup(!isSignup)}
               className="text-blue-400 hover:text-blue-300 font-semibold"
             >
-              
-
               {isSignup ? "Log In Here" : "Sign Up"}
             </button>
           </p>
