@@ -40,7 +40,11 @@ const Request = () => {
             : "bg-gradient-to-br from-base-100 to-base-300 text-white"
         }`}
       >
-        <div className="bg-base-100 p-12 rounded-xl shadow-xl flex flex-col items-center">
+        <div className={` p-12 rounded-xl shadow-xl flex flex-col items-center${
+          theme === "dark"
+            ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
+            : "bg-gradient-to-br from-base-100 to-base-300 text-white"
+        }`}>
           <svg
             className="w-20 h-20 text-blue-400 mb-6"
             xmlns="http://www.w3.org/2000/svg"

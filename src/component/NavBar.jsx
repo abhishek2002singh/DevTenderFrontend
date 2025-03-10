@@ -48,12 +48,16 @@ const NavBar = () => {
       <div className="flex-none gap-2">
         {/* Gold and Silver Membership */}
         <div className="hidden sm:flex gap-2 items-center">
+          <Link to="/app/gold">
           <button className="btn btn-ghost text-gold-500">
             <FaStar /> Gold Membership
           </button>
+          </Link>
+          <Link to="/app/silver">
           <button className="btn btn-ghost text-silver-400">
             <FaStar /> Silver Membership
           </button>
+          </Link>
         </div>
 
         {/* Light/Dark Mode Toggle Button */}
@@ -102,7 +106,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/app/request">
+                <Link to="/app/gold">
                 <FaStar /> Gold Membership
                 </Link>
               </li>

@@ -2,10 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/Constant";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Shimmer from "../shimmer/Shimmer"; 
 
 const Login = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -14,6 +15,7 @@ const Login = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,6 +38,8 @@ const Login = () => {
     }
     setError(null); // Clear any previous error
 
+    setIsLoading(true); // Start loading (show shimmer)
+
     try {
       const res = await axios.post(
         `${BASE_URL}/login`,
@@ -49,7 +53,9 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to log in. Please check your credentials.");
-      toast.error("Login failed! "+err?.response?.data);
+      toast.error("Login failed! " + err?.response?.data);
+    } finally {
+      setIsLoading(false); // Stop loading (hide shimmer)
     }
   };
 
@@ -60,7 +66,9 @@ const Login = () => {
       toast.error(validationError);
       return;
     }
-    setError(null); // Clear any previous error
+    setError(null); 
+
+    setIsLoading(true); 
 
     try {
       const res = await axios.post(
@@ -75,14 +83,23 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to sign up. Please try again.");
-      toast.error("Signup failed! "+err?.response?.data);
+      toast.error("Signup failed! " + err?.response?.data);
+    } finally {
+      setIsLoading(false); // Stop loading (hide shimmer)
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 relative">
+      {/* Toast Container */}
       <ToastContainer position="top-right" autoClose={3000} />
-      <section className="flex flex-col md:flex-row items-center p-8 md:p-16 bg-gray-800 text-white rounded-lg shadow-lg max-w-6xl w-full">
+
+      {/* Login/Signup Form */}
+      <section
+        className={`flex flex-col md:flex-row items-center p-8 md:p-16 bg-gray-800 text-white rounded-lg shadow-lg max-w-6xl w-full transition-opacity duration-300 ${
+          isLoading ? "opacity-20" : "opacity-100"
+        }`}
+      >
         {/* Image Section */}
         <div className="md:w-1/2 w-full flex justify-center">
           <img
@@ -145,8 +162,9 @@ const Login = () => {
           <button
             onClick={isSignup ? handleSignup : handleLogin}
             className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded transition duration-300"
+            disabled={isLoading} // Disable button while loading
           >
-            {isSignup ? "Sign Up" : "Login"}
+            {isLoading ? "Processing..." : isSignup ? "Sign Up" : "Login"}
           </button>
 
           <p className="mt-4 text-center">
@@ -154,12 +172,27 @@ const Login = () => {
             <button
               onClick={() => setIsSignup(!isSignup)}
               className="text-blue-400 hover:text-blue-300 font-semibold"
+              disabled={isLoading} // Disable button while loading
             >
               {isSignup ? "Log In Here" : "Sign Up"}
             </button>
+
           </p>
+          <Link to='/otp'>
+          <button
+            
+            className="   text-white p-3 "
+            disabled={isLoading} 
+          >
+           Forgot Password ? <span className="text-blue-700  font-bold hover:bg-green-600 rounded transition duration-300  m-3 p-3">Click Here</span> 
+          </button>
+          </Link>
+
         </div>
       </section>
+
+      {/* Shimmer Overlay */}
+      {isLoading && <Shimmer />}
     </div>
   );
 };

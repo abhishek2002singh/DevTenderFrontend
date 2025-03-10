@@ -4,6 +4,7 @@ import feedReducer from './feedSlice'
 import connectionReducer from './connectionSlice'
 import requestReducer from './requstSlice'
 import themeSlice from './themeSlice'
+import paymentReducer from "./paymentSlice";
 
 
 
@@ -13,7 +14,8 @@ const appStore = configureStore({
         user : userReducer,
         feed: feedReducer,
         connections: connectionReducer,
-        request:requestReducer
+        request:requestReducer,
+        payment: paymentReducer,
     },
 
 })

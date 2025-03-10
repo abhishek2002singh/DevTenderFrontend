@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import CardReel from "./CardReel";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { setPaymentStatus } from "../utils/paymentSlice"; // Import the payment slice action
 
 const GetReel = () => {
   const [reels, setReels] = useState([]);
@@ -11,6 +15,9 @@ const GetReel = () => {
   const [likeCount, setLikeCount] = useState({});
   const [commentCount, setCommentCount] = useState({});
 
+  const dispatch = useDispatch();
+  const isPaymentDone = useSelector((store) => store.payment.isPaymentDone); // Get payment status from Redux store
+
   // Fetch all reels from the backend
   useEffect(() => {
     const fetchReels = async () => {
@@ -19,7 +26,7 @@ const GetReel = () => {
           withCredentials: true,
         });
         setReels(response.data.reels);
-        console.log(response.data.reels)
+        console.log(response.data.reels);
 
         // Fetch like and comment counts for each reel
         response.data.reels.forEach(async (reel) => {
@@ -40,18 +47,34 @@ const GetReel = () => {
         setLoading(false);
       }
     };
-    fetchReels();
-  }, []);
+
+    // Only fetch reels if payment is done
+    if (isPaymentDone) {
+      fetchReels();
+    } else {
+      setLoading(false);
+    }
+  }, [isPaymentDone]);
 
   // Handle like functionality
   const handleLike = async (reelId) => {
+    if (!isPaymentDone) {
+      toast.info("Please subscribe or pay first to like reels.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
     try {
       await axios.post(
         `${BASE_URL}/like/reel/${reelId}`,
         {},
-        {withCredentials: true}
-        
-        
+        { withCredentials: true }
       );
       setLikeCount((prev) => ({
         ...prev,
@@ -64,6 +87,18 @@ const GetReel = () => {
 
   // Handle comment submission
   const handleCommentSubmit = async (reelId) => {
+    if (!isPaymentDone) {
+      toast.info("Please subscribe or pay first to comment on reels.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
     if (newComment.trim() === "") {
       return;
     }
@@ -72,8 +107,7 @@ const GetReel = () => {
       const response = await axios.post(
         `${BASE_URL}/comment/reel/${reelId}`,
         { commentText: newComment },
-        { withCredentials: true },
-       
+        { withCredentials: true }
       );
       // Update the comment count in the state
       setCommentCount((prev) => ({
@@ -87,28 +121,58 @@ const GetReel = () => {
   };
 
   return (
- <div className="flex flex-col items-center justify-start   mx-auto p-4 ">
-  <h2 className="text-3xl font-semibold mb-6 text-center">All Reels</h2>
+    <div className="flex flex-col items-center justify-start mx-auto p-4">
+      <h2 className="text-3xl font-semibold mb-6 text-center">All Reels</h2>
 
-  {loading && <p className="text-center">Loading reels...</p>}
-  {error && <p className="text-red-500 text-center">{error}</p>}
+      {loading && <p className="text-center">Loading reels...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
 
-  <div className="flex flex-col  space-y-4 ">
-    {reels.map((reel) => (
-      <CardReel
-        key={reel._id}
-        reel={reel}
-        likeCount={likeCount[reel._id] || 0}
-        commentCount={commentCount[reel._id] || 0}
-        newComment={newComment}
-        setNewComment={setNewComment}
-        handleLike={handleLike}
-        handleCommentSubmit={handleCommentSubmit}
-      />
-    ))}
-  </div>
-</div>
+      {/* Show payment prompt if payment is not done */}
+      {!isPaymentDone && (
+        <div className=" h-screen text-center">
+          <p className="text-xl mb-4">
+            Please subscribe or pay to view and interact with reels.
+          </p>
+          <button
+            className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-lg font-semibold shadow-lg"
+            onClick={() => {
+              toast.info("Redirecting to payment page...", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              });
+              setTimeout(() => {
+                // Redirect to payment page
+                window.location.href = "/app/payment";
+              }, 2000);
+            }}
+          >
+            Subscribe Now
+          </button>
+        </div>
+      )}
 
+      {/* Show reels only if payment is done */}
+      {isPaymentDone && (
+        <div className="flex flex-col space-y-4">
+          {reels.map((reel) => (
+            <CardReel
+              key={reel._id}
+              reel={reel}
+              likeCount={likeCount[reel._id] || 0}
+              commentCount={commentCount[reel._id] || 0}
+              newComment={newComment}
+              setNewComment={setNewComment}
+              handleLike={handleLike}
+              handleCommentSubmit={handleCommentSubmit}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
