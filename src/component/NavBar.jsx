@@ -111,7 +111,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/app/request">
+                <Link to="/app/silver">
                 <FaStar /> Silver Membership
                 </Link>
               </li>

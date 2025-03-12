@@ -74,13 +74,13 @@ const Connection = () => {
 
   return (
     
-    <div className={`bg-base-100 flex flex-col items-center gap-6  ${
+    <div className={`bg-base-100 min-h-screen flex flex-col items-center gap-6  ${
     theme === "dark"
         ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
         : "bg-gray-900 text-white"
     }`}>
 
-      <div className="text-center my-4">
+      <div className="text-center  my-4">
         <h2 className="text-2xl font-bold text-gray-400">
           Total Connections: {totalConnections}
         </h2>

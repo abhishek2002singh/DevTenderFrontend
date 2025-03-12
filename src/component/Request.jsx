@@ -32,9 +32,13 @@ const Request = () => {
   if(!selector) return
   if (selector.length === 0) {
     return (
-      // <div className="flex items-center justify-center h-screen bg-gradient-to-br from-base-100 to-base-300">
+    <div className={`flex items-center justify-center min-h-screen w-full ${
+      theme === "dark"
+        ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
+        : "bg-gradient-to-br from-base-100 to-base-300 text-white"
+    }`}>
       <div
-        className={`flex items-center justify-center h-screen ${
+        className={`flex items-center justify-center max-h-screen ${
           theme === "dark"
             ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
             : "bg-gradient-to-br from-base-100 to-base-300 text-white"
@@ -64,6 +68,7 @@ const Request = () => {
             You currently have no incoming requests. Check back later or refresh the page to see if new requests arrive.
           </p>
         </div>
+      </div>
       </div>
     );
   }

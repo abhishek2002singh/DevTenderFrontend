@@ -1,55 +1,63 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { BASE_URL } from '../utils/Constant';
 
 const AIChatbot = () => {
-  const [message, setMessage] = useState("");
+  const [question, setQuestion] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSendMessage = async () => {
-    if (!message.trim()) return;
+  const sendMessage = async () => {
+    if (!question.trim()) {
+      setError("Question cannot be empty.");
+      return;
+    }
 
-    setIsLoading(true);
+    setLoading(true);
+    setError("");
+
     try {
-      const response = await axios.post(
-        `${BASE_URL}/ai-chat`,
-        { message },
-        { withCredentials: true }
-      );
-      setChatHistory((prev) => [
-        ...prev,
-        { role: "user", content: message },
-        { role: "ai", content: response.data.response },
-      ]);
-      setMessage("");
-    } catch (error) {
-      console.error("Error sending message:", error);
-      alert("Failed to send message. Please try again.");
+      const response = await axios.post("http://localhost:7777/ai-chat", { message: question }, { withCredentials: true });
+
+      setChatHistory([...chatHistory, { role: "user", content: question }, { role: "ai", content: response.data.response }]);
+      setQuestion("");
+    } catch (err) {
+      setError("Failed to get a response. Please try again.");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
+  const closeMessage = (index) => {
+    setChatHistory(chatHistory.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="chat-container">
-      <div className="chat-history">
+    <div className="max-w-lg mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-xl font-semibold mb-3">AI Help Chatbot</h2>
+
+      <div className="chat-history space-y-3 mb-4">
         {chatHistory.map((chat, index) => (
-          <div key={index} className={`chat-message ${chat.role}`}>
-            <strong>{chat.role === "user" ? "You" : "AI"}:</strong> {chat.content}
+          <div key={index} className={`p-2 rounded-lg flex justify-between items-center ${chat.role === "user" ? "bg-blue-300" : "bg-gray-300"}`}>
+            <span><strong>{chat.role === "user" ? "You" : "AI"}:</strong> {chat.content}</span>
+            <button className="text-red-500 font-bold ml-2" onClick={() => closeMessage(index)}>✖</button>
           </div>
         ))}
       </div>
-      <div className="chat-input">
+
+      {error && <p className="text-red-500">{error}</p>}
+
+      <div className="flex space-x-2">
         <input
           type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your question..."
-          disabled={isLoading}
+          className="flex-1 p-2 border rounded-md"
+          placeholder="Ask about coding..."
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          disabled={loading}
         />
-        <button onClick={handleSendMessage} disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send"}
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-md" onClick={sendMessage} disabled={loading}>
+          {loading ? "Thinking..." : "Ask"}
         </button>
       </div>
     </div>

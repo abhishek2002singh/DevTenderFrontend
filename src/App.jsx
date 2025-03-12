@@ -26,6 +26,8 @@ import Payment from './payment/Payment';
 import Silver from './payment/Silver';
 import OtpLogin from './otpLogin/OtpLogin'
 import UpdatePassword from './updatepassword/UpdatePassword';
+import ProfilePage from './seeProfile/ProfilePage';
+import Chat from './chat/Chat';
 
 
 
@@ -60,6 +62,8 @@ function App() {
             <Route path="gold" element={<Gold />} />
             <Route path="payment" element={<Payment />} />
             <Route path="silver" element={<Silver />} />
+            <Route path="profile/:id" element={<ProfilePage />} />
+            <Route path="chat/:chatid" element={<Chat />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from '../utils/Constant';
+import { BASE_URL } from "../utils/Constant";
 import { useDispatch, useSelector } from "react-redux";
-import { addFeed } from '../utils/feedSlice';
+import { addFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
 import GetPost from "./GetPost";
-import { FaQuestionCircle } from "react-icons/fa"; // Help icon
-import AIChatbot from "../help/AIChatbot"; // AI Chatbot component
-
-import RaiseTicket from "../help/RaiseTicket"; // Raise ticket component
+import HelpCenter from "../help/HelpCenter"; // Import HelpCenter
+import { Link } from "react-router-dom";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
   const { theme } = useSelector((store) => store.theme);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("ai-chat"); // Default to AI Chatbot
+  const [userId, setUserId] = useState("");
+ 
 
-  const getfeed = async () => {
+  const getFeed = async () => {
     if (feed) return;
     try {
       const res = await axios.get(`${BASE_URL}/feed`, { withCredentials: true });
       dispatch(addFeed(res.data));
+      
     } catch (err) {
       console.error(err);
       alert("Failed to fetch feed. Please try again.");
@@ -29,18 +28,22 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    getfeed();
+    getFeed();
   }, []);
+
+  
 
   if (!feed) return null;
 
   if (feed.length <= 0) {
     return (
-      <div className={`flex items-center justify-center h-screen ${
-        theme === 'dark'
-          ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
-          : "bg-gray-900 text-white"
-      }`}>
+      <div
+        className={`flex items-center justify-center h-screen ${
+          theme === "dark"
+            ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
+            : "bg-gray-900 text-white"
+        }`}
+      >
         <div className="bg-base-100 p-12 rounded-xl shadow-xl flex flex-col items-center">
           <svg
             className="w-20 h-20 text-blue-400 mb-6"
@@ -57,12 +60,8 @@ const Feed = () => {
             />
           </svg>
           <h1 className="text-3xl font-bold text-gray-400 mb-4">No New Users Found</h1>
-          <p className="text-gray-400 mb-6">
-            It looks like there are currently no new users in your feed.
-          </p>
-          <p className="text-gray-400 mb-6">
-            Check back later to see updates!!
-          </p>
+          <p className="text-gray-400 mb-6">It looks like there are currently no new users in your feed.</p>
+          <p className="text-gray-400 mb-6">Check back later to see updates!!</p>
           <p className="text-gray-400 flex items-center mb-6">
             Users can also explore this website and create an account here!
             <img
@@ -77,64 +76,14 @@ const Feed = () => {
   }
 
   return (
-    <div className="relative">
-      {/* Help Icon */}
-      <div
-        className="fixed bottom-10 right-10 bg-blue-500 p-4 rounded-full cursor-pointer shadow-lg hover:bg-blue-600 transition duration-300"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <FaQuestionCircle className="text-white text-2xl" />
-      </div>
-
-      {/* Sidebar */}
-      {isSidebarOpen && (
-        <div className="fixed inset-y-0 right-0 w-96 bg-white shadow-lg z-50">
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-6">Help Center</h2>
-            <div className="flex space-x-4 mb-6">
-              <button
-                className={`px-4 py-2 rounded-lg ${
-                  activeTab === "ai-chat"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-                onClick={() => setActiveTab("ai-chat")}
-              >
-                AI Chatbot
-              </button>
-              <button
-                className={`px-4 py-2 rounded-lg ${
-                  activeTab === "chat-human"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-                onClick={() => setActiveTab("chat-human")}
-              >
-                Chat with Human
-              </button>
-              <button
-                className={`px-4 py-2 rounded-lg ${
-                  activeTab === "raise-ticket"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-                onClick={() => setActiveTab("raise-ticket")}
-              >
-                Raise a Ticket
-              </button>
-            </div>
-
-            {/* Render Active Tab */}
-            {activeTab === "ai-chat" && <AIChatbot />}
-            {activeTab === "chat-human" && <ChatWithHuman />}
-            {activeTab === "raise-ticket" && <RaiseTicket />}
-          </div>
-        </div>
-      )}
-
-      {/* Feed Content */}
+    
+    <div className="relative z-0">
+     console.log(key)
+     
       <UserCard user={feed[0]} />
+      
       <GetPost />
+      <HelpCenter /> 
     </div>
   );
 };

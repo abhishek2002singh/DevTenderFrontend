@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { MdOutlineMessage } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 
 
@@ -10,7 +12,7 @@ const CardConnection = ({ user }) => {
   return (
   
   
-    <div className={`w-96 rounded-[10px] m-auto overflow-hidden shadow-lg  p-6 ${
+    <div className={`w-96  rounded-[10px] m-auto overflow-hidden shadow-lg  p-6 ${
         theme === 'dark'
           ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
           : "bg-base-100 text-white"
@@ -26,6 +28,7 @@ const CardConnection = ({ user }) => {
         </h2>
         <p className="text-gray-400">Age: {user.age}</p>
         <p className="text-gray-400">Gender: {user.gender}</p>
+        
        
       </div>
       <div className="mt-4">
@@ -40,6 +43,15 @@ const CardConnection = ({ user }) => {
             </li>
           ))}
         </ul>
+        <Link to={`/app/chat/${user._id}`}>
+        <div className="mt-5">
+           <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out">
+             <MdOutlineMessage className="text-lg" /> Chat
+           </button>
+         </div>
+         </Link>
+
+        
       </div>
     </div>
     

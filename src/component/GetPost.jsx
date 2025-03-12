@@ -4,6 +4,8 @@ import { BASE_URL } from "../utils/Constant";
 import { useSelector } from "react-redux";
 import { Heart, MessageCircle } from "lucide-react"; // Add icons
 import GetDataCommentLike from "./GetDataCommentLike";
+import ShimmerFeed from "../shimmer/ShimmerFeed";
+import { Link } from "react-router-dom";
 
 const GetPost = () => {
   const [posts, setPosts] = useState([]);
@@ -11,7 +13,8 @@ const GetPost = () => {
   const [error, setError] = useState("");
   const [likedPosts, setLikedPosts] = useState([]);
   const [showCommentSection, setShowCommentSection] = useState(null);
-  const [commentText, setCommentText] = useState(""); // State for comment input
+  const [commentText, setCommentText] = useState(""); 
+  const [loadingshimmer, setLoadingshimmer] = useState(true); 
 
   const { theme } = useSelector((store) => store.theme); // Get the current theme from Redux
 
@@ -22,9 +25,12 @@ const GetPost = () => {
 
     try {
       const response = await axios.get(`${BASE_URL}/posts`, { withCredentials: true });
-      setPosts(response.data.posts); // Update posts state
+      setPosts(response.data.posts);
+       // Update posts state
+      setLoadingshimmer(false)
     } catch (err) {
       setError(err.response?.data?.message || "Error fetching posts.");
+      
     } finally {
       setLoading(false);
     }
@@ -110,6 +116,8 @@ const GetPost = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
+  
+  if (loadingshimmer) return <ShimmerFeed />
 
   return (
     <div
@@ -119,6 +127,8 @@ const GetPost = () => {
 
       {loading && <p className="text-center">Loading posts...</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
+
+
 
       <div className="flex flex-col gap-6">
         {posts.map((post) => (
@@ -140,9 +150,16 @@ const GetPost = () => {
               />
             )}
             <p className="text-lg font-semibold">{post.caption}</p>
+           
             <p className="text-sm text-gray-400">
-              Posted by: {post.user?.firstName} {post.user?.lastName}
+              Posted by:{" "}
+              {post.user && (
+                <Link to={`/app/profile/${post.user._id}`} className="text-blue-400 hover:underline">
+                  {post.user.firstName} {post.user.lastName}
+                </Link>
+              )}
             </p>
+
 
             {/* Like and Comment buttons */}
             <div className="flex items-center gap-6 mt-4">

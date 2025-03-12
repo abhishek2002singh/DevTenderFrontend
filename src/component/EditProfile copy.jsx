@@ -67,11 +67,7 @@ const EditProfile = () => {
               type="text"
               name="firstName"
               value={firstName}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-        theme === 'dark'
-          ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-          : "bg-gray-900 text-white"
-      }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               // required
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -82,11 +78,7 @@ const EditProfile = () => {
               type="text"
               name="lastName"
               value={lastName}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               // required
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -97,11 +89,7 @@ const EditProfile = () => {
               type="number"
               name="age"
               value={age}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               // required
               onChange={(e) => setAge(e.target.value)}
             />
@@ -112,11 +100,7 @@ const EditProfile = () => {
               type="text"
               name="gender"
               value={gender}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               // required
               onChange={(e) => setGender(e.target.value)}
             />
@@ -128,11 +112,7 @@ const EditProfile = () => {
               name="skills"
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
             />
           </div>
           <div>
@@ -143,11 +123,7 @@ const EditProfile = () => {
               name="photoUrl"
               value={photoUrl}
               onChange={(e) => setPhotoUrl(e.target.value)}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
             />
           </div>
           <div>
@@ -155,11 +131,7 @@ const EditProfile = () => {
             <textarea
               name="about"
               value={about}
-              className={`w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400 ${
-                theme === 'dark'
-                  ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] border border-white text-black"
-                  : "bg-gray-900 text-white"
-              }`}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
               rows="4"
               onChange={(e) => setAbout(e.target.value)}
             />

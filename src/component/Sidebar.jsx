@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { FaHome, FaUser, FaBell, FaCommentDots, FaSearch, FaThList, FaMedal, FaCrown } from "react-icons/fa";
+import { MdOutlineVideoCameraFront ,MdOutlineReportProblem  } from "react-icons/md";
+import { RiVideoAddLine } from "react-icons/ri";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -17,11 +19,11 @@ const Sidebar = () => {
     { path: "/app/connection", label: "Connections", icon: <FaUser size={30} /> },
     { path: "/app/notification", label: "Notifications", icon: <FaBell size={30} /> },
     { path: "/app/request", label: "Requests", icon: <FaSearch size={30} /> },
-    { path: "/app/getreel", label: "GetReel", icon: <FaSearch size={30} /> },
+    { path: "/app/getreel", label: "See Video", icon: <MdOutlineVideoCameraFront size={30} /> },
     { path: "/app/message", label: "Messages", icon: <FaCommentDots size={30} /> },
     { path: "/app/profile", label: "Profile", icon: <FaUser size={30} /> },
-    { path: "/app/addFile", label: "AddFile", icon: <FaUser size={30} /> },
-    { path: "/app/addreel", label: "AddReel", icon: <FaUser size={30} /> },
+    { path: "/app/addfile", label: "Add Problem", icon: <MdOutlineReportProblem size={30} /> },
+    { path: "/app/addreel", label: "Add Video", icon: <RiVideoAddLine size={30} /> },
 
   ];
 

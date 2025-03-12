@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import Footer from "./Footer"
 import Sidebar from "./Sidebar"
 import AddPostFeature from "./AddPostFeature"
+import HelpCenter from "../help/HelpCenter"
 
 
 
@@ -59,11 +60,12 @@ const Body = () => {
 
     <div className="flex flex-col h-full">
     <NavBar />
-    <div className="relative flex-grow   ">
+    <div className="relative flex-grow  ">
       <Sidebar />
          
-     
+       <HelpCenter /> {/* Add HelpCenter component */}
          <Outlet />
+         
        
       
        
