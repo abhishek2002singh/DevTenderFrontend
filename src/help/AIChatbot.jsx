@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/Constant";
 
 const AIChatbot = () => {
   const [question, setQuestion] = useState("");
@@ -17,7 +18,7 @@ const AIChatbot = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:7777/ai-chat", { message: question }, { withCredentials: true });
+      const response = await axios.post(BASE_URL+"/ai-chat", { message: question }, { withCredentials: true });
 
       setChatHistory([...chatHistory, { role: "user", content: question }, { role: "ai", content: response.data.response }]);
       setQuestion("");
