@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux"; // ✅ Import useSelector
 import { createSockerConnection } from "../chat/ChatConfig"; // ✅ Fixed function name
 import axios from "axios";
@@ -10,6 +10,11 @@ const Chat = () => {
   const { chatid } = useParams(); // ✅ Get chat user ID from URL
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+
+  const location = useLocation();
+  const { firstName , lastName } = location.state || {}; // Get firstName from state
+
+  
 
   const user = useSelector(store => store.user); 
   const { theme } = useSelector(store => store.theme); // ✅ Get theme from Redux
@@ -79,7 +84,7 @@ const Chat = () => {
               : "bg-gray-900 text-white"
           }`}>
       <h1 className="p-5 border-b border-gray-300 text-lg font-bold text-gray-700">
-        Chat with {chatid}
+        Chat with <span className="text-red-600">{firstName}{lastName}</span> 
       </h1>
 
       {/* Messages Container */}
@@ -88,16 +93,19 @@ const Chat = () => {
               : "bg-gray-900 text-white"
           }`}>
         {messages.map((msg, index) => (
-          <div key={index} className={`flex ${msg.sender === "Me" ? "justify-start" : "justify-end"}`}>
+          <div key={index} className={`flex ${user.firstName === msg.firstName ?  "justify-start" : "justify-end"}`}>
+            <div className="">
+            <div className="text-sm font-semibold pb-2 pl-5">{user.firstName === msg.firstName ? "you" :msg.firstName}</div>
             <div
               className={`max-w-xs p-3 rounded-lg shadow-md ${
-                msg.sender === "Me"
+                user.firstName === msg.firstName 
                   ?"bg-green-500 text-white"
                   : "bg-blue-500 text-white"
               }`}
             >
-              <div className="text-sm font-semibold">{msg.sender === "Me"? "you" :msg.firstName}</div>
+             
               <div className="mt-1">{msg.text}</div>
+            </div>
             </div>
           </div>
         ))}

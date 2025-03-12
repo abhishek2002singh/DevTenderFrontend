@@ -43,7 +43,7 @@ const CardConnection = ({ user }) => {
             </li>
           ))}
         </ul>
-        <Link to={`/app/chat/${user._id}`}>
+        <Link to={`/app/chat/${user._id}`}  state={{ firstName: user.firstName , lastName: user.lastName}}>
         <div className="mt-5">
            <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-5 py-2 rounded-full shadow-md transition duration-300 ease-in-out">
              <MdOutlineMessage className="text-lg" /> Chat
