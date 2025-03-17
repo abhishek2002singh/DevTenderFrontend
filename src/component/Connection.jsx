@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { addConnections } from '../utils/connectionSlice';
 import CardConnection from "./CardConnection";
 import Sidebar from "./Sidebar";
+import Message from "../component/Message";
 
 const Connection = () => {
   const dispatch = useDispatch();
@@ -87,7 +88,10 @@ const Connection = () => {
       </div>
       
       {userSelector.map((user, index) => (
+        <>
         <CardConnection key={index} user={user} />
+        <Message  key={index} user={user} />
+        </>
       ))}
     </div>
   );

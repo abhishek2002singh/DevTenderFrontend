@@ -78,7 +78,7 @@ const Feed = () => {
   return (
     
     <div className="relative z-0">
-     console.log(key)
+     
      
       <UserCard user={feed[0]} />
       

@@ -60,7 +60,10 @@ const GetPost = () => {
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post._id === postId
-            ? { ...post, likesCount: post.likesCount + 1 }
+            ? { 
+                ...post, 
+                likesCount: typeof post.likesCount === "number" ? post.likesCount + 1 : 1 
+              }
             : post
         )
       );
@@ -105,14 +108,14 @@ const GetPost = () => {
       setCommentText("");
       setShowCommentSection(null); // Optionally close the comment section after submission
 
-      console.log(response.data.message); // Log success message
+      console.log(response.data.message); 
     } catch (err) {
       console.error("Error posting comment:", err);
       setError("Failed to post comment. Please try again.");
     }
   };
 
-  // Fetch posts when the component mounts
+  
   useEffect(() => {
     fetchPosts();
   }, []);
