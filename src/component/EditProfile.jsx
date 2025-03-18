@@ -3,7 +3,11 @@ import { useState } from "react";
 import { BASE_URL } from "../utils/Constant";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from '../utils/userSlice';
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState("");
@@ -17,8 +21,16 @@ const EditProfile = () => {
   const navigate = useNavigate(); // Initialize navigate
   const { theme } = useSelector((store) => store.theme);
 
+  
+
+
   const handleEditProfile = async (e) => {
-    e.preventDefault(); // Prevents the form from submitting and page refreshing
+    e.preventDefault(); 
+
+    if (!photoUrl) {
+      setPhotoUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ZxwCJ0PDLfFEpF09-lMCMhFMtCFoTVUJ0Q&s");
+    }
+
 
     // Convert skills to an array if it's a comma-separated string
     const skillsArray = skills.split(',').map(skill => skill.trim());
@@ -40,9 +52,11 @@ const EditProfile = () => {
         }
       );
       dispatch(addUser(res?.data?.data));
+      toast.success("Profile updated successfully!");
       navigate('/app/profile'); // Navigate to the profile page after success
     } catch (err) {
       console.error(err);
+      toast.error(err.response?.data || "Something went wrong!");
     }
   };
 

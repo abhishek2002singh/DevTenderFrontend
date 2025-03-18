@@ -1,10 +1,33 @@
 import { useSelector } from "react-redux";
 import { MdOutlineMessage } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ShimmerRequest from "../shimmer/ShimmerRequest";
 
 const Message = () => {
   const { theme } = useSelector((store) => store.theme);
   const userSelector = useSelector((store) => store.connections);
+   const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    // Simulate data fetching
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+
+  if (loading) {
+    return (
+      <div className={`flex items-center justify-center min-h-screen ${
+        theme === 'dark'
+          ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
+          : "bg-base-100 text-white"
+      }`}>
+        <ShimmerRequest />
+      </div>
+    );
+  }
 
   if (!userSelector || userSelector.length === 0) {
     return (

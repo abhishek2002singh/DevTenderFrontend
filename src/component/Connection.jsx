@@ -1,17 +1,17 @@
 import axios from "axios";
 import { BASE_URL } from '../utils/Constant';
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addConnections } from '../utils/connectionSlice';
 import CardConnection from "./CardConnection";
-import Sidebar from "./Sidebar";
-import Message from "../component/Message";
+import ShimmerRequest from "../shimmer/ShimmerRequest";
+
 
 const Connection = () => {
   const dispatch = useDispatch();
-   const { theme } = useSelector((store) => store.theme);
+  const { theme } = useSelector((store) => store.theme);
   const userSelector = useSelector((store) => store.connections);
-  
+  const [loading, setLoading] = useState(true);
 
   const showConnection = async () => {
     try {
@@ -21,9 +21,10 @@ const Connection = () => {
       dispatch(addConnections(res.data.data));
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     showConnection();
@@ -31,18 +32,28 @@ const Connection = () => {
 
   const totalConnections = userSelector ? userSelector.length : 0;
 
-  if (!userSelector || userSelector.length === 0) {
+  if (loading) {
     return (
-      
-      
-      <div className={`flex items-center m-auto justify-center min-h-screen bg-base-100 p-4 ${
+      <div className={`flex items-center justify-center min-h-screen ${
         theme === 'dark'
-          ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
+          ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
           : "bg-base-100 text-white"
       }`}>
-        <div className={` rounded-lg shadow-lg p-8 text-center${
+        <ShimmerRequest />
+      </div>
+    );
+  }
+
+  if (!userSelector || userSelector.length === 0) {
+    return (
+      <div className={`flex items-center justify-center min-h-screen bg-base-100 p-4 ${
         theme === 'dark'
-          ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
+          ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
+          : "bg-base-100 text-white"
+      }`}>
+        <div className={`rounded-lg shadow-lg p-8 text-center ${
+        theme === 'dark'
+          ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
           : "bg-base-300 text-white"
       }`}>
           <h2 className="text-3xl font-bold text-gray-600 mb-4">
@@ -55,7 +66,7 @@ const Connection = () => {
             Start connecting with others to grow your professional network and open up new opportunities!
           </p>
           <img
-            src="https://via.placeholder.com/200" // Replace with a relevant illustration
+            src="https://via.placeholder.com/200"
             alt="No Connections"
             className="w-40 h-40 object-contain mx-auto mb-4"
           />
@@ -67,31 +78,22 @@ const Connection = () => {
           </div>
         </div>
       </div>
-     
     );
   }
-  
-  
 
   return (
-    
-    <div className={`bg-base-100 min-h-screen flex flex-col items-center gap-6  ${
+    <div className={`bg-base-100 min-h-screen flex flex-col items-center gap-6 ${
     theme === "dark"
         ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
         : "bg-gray-900 text-white"
     }`}>
-
-      <div className="text-center  my-4">
+      <div className="text-center my-4">
         <h2 className="text-2xl font-bold text-gray-400">
           Total Connections: {totalConnections}
         </h2>
       </div>
-      
       {userSelector.map((user, index) => (
-        <>
         <CardConnection key={index} user={user} />
-        <Message  key={index} user={user} />
-        </>
       ))}
     </div>
   );

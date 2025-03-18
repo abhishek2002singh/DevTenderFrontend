@@ -7,12 +7,13 @@ import UserCard from "./UserCard";
 import GetPost from "./GetPost";
 import HelpCenter from "../help/HelpCenter"; // Import HelpCenter
 import { Link } from "react-router-dom";
+import ShimmerFeed from "../shimmer/ShimmerFeed";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
   const { theme } = useSelector((store) => store.theme);
-  const [userId, setUserId] = useState("");
+
  
 
   const getFeed = async () => {
@@ -25,13 +26,20 @@ const Feed = () => {
       console.error(err);
       alert("Failed to fetch feed. Please try again.");
     }
+    
   };
 
   useEffect(() => {
     getFeed();
   }, []);
 
-  
+
+if(feed){
+  setTimeout(()=>{
+    <ShimmerFeed/>
+  } ,1000)
+}
+
 
   if (!feed) return null;
 
