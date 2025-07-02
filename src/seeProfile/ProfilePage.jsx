@@ -7,6 +7,7 @@ import Shimmer from "../shimmer/ProfilePageShimmer"; // Shimmer Component
 
 const ProfilePage = () => {
   const { id } = useParams(); // Get user ID from URL
+  
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);

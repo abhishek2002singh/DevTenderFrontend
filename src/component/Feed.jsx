@@ -34,11 +34,6 @@ const Feed = () => {
   }, []);
 
 
-if(feed){
-  setTimeout(()=>{
-    <ShimmerFeed/>
-  } ,1000)
-}
 
 
   if (!feed) return null;

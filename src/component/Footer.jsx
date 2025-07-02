@@ -7,7 +7,7 @@ const Footer = () => {
 
   return (
     <footer
-    className={`p-10 w-full ${
+    className={` p-10 w-full ${
       theme === 'light'
         ? "bg-gray-900 text-white"
         : "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"

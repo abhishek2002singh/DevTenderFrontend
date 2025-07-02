@@ -47,7 +47,11 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      dispatch(addUser(res.data));
+      localStorage.setItem("token", res.data.token)
+
+      console.log(res)
+
+      dispatch(addUser(res.data.user));
       toast.success("Login successful!");
       navigate("/app");
     } catch (err) {
