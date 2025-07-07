@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import { useSelector } from "react-redux";
@@ -26,6 +26,7 @@ const GetPost = () => {
     try {
       const response = await axios.get(`${BASE_URL}/posts`, { withCredentials: true });
       setPosts(response.data.posts);
+      console.log("total post is " ,response.data )
        // Update posts state
       setLoadingshimmer(false)
     } catch (err) {
@@ -137,7 +138,7 @@ const GetPost = () => {
         {posts.map((post) => (
           <div
             key={post._id}
-            className={`p-4 w-full sm:w-2/5 md:w-1/3 lg:w-1/4 xl:w-1/5 mx-auto rounded-lg shadow-md ${theme === "dark" ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800" : "bg-gray-800 text-white"}`}
+            className={`p-4 w-full sm:w-2/5 md:w-1/3 lg:w-1/3 xl:w-1/3 mx-auto rounded-lg shadow-md ${theme === "dark" ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800" : "bg-gray-800 text-white"}`}
           >
             {post.mediaType === "image" ? (
               <img
@@ -152,26 +153,28 @@ const GetPost = () => {
                 className="w-full h-auto object-cover rounded-lg mb-4"
               />
             )}
-            <p className="text-lg font-semibold">{post.caption}</p>
-           
-            <p className="text-sm text-gray-400">
-              Posted by:{" "}
-              {post.user && (
-                <Link to={`/app/profile/${post.user._id}`} className="text-blue-400 hover:underline">
-                  {post.user.firstName} {post.user.lastName}
-                </Link>
-              )}
-            </p>
+            <p className="text-lg ">{post.caption}</p>
+              <Link to={`/app/profile/${post.user._id}`} className="flex items-center gap-2">
+              <img 
+                className="w-12 h-12 object-cover rounded-full shadow-md" 
+                src={post.user.photoUrl} 
+                alt={post.user.firstName} 
+              />
+              <p className="text-blue-400 hover:underline font-semibold">
+                {post.user.firstName} {post.user.lastName}
+              </p>
+            </Link>
+
 
 
             {/* Like and Comment buttons */}
-            <div className="flex items-center gap-6 mt-4">
+            <div className={`flex items-center gap-6 mt-4${theme === "dark" ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800" : "bg-gray-900 text-white"}`}>
               <button
                 className={`flex items-center gap-2 ${likedPosts.includes(post._id) ? "text-red-500" : "text-blue-500"} hover:text-blue-700 transition`}
                 onClick={() => handleLike(post._id)}
               >
                 <Heart className="w-5 h-5" />
-                <span>Like ({post.likesCount})</span>
+                <span>Like ({post?.likes?.length})</span>
               </button>
 
               <button
@@ -179,7 +182,7 @@ const GetPost = () => {
                 onClick={() => handleComment(post._id)}
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>Comment ({post.commentsCount})</span>
+                <span>Comment ({post?.comments?.length})</span>
               </button>
             </div>
 
@@ -187,7 +190,7 @@ const GetPost = () => {
             {showCommentSection === post._id && (
               <div className="mt-4 p-4 bg-gray-200 rounded-md">
                 <textarea
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                  className={`w-full p-2 border  rounded-md ${theme === "dark" ? "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800" : "bg-gray-900 text-white"}`}
                   placeholder="Write a comment..."
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
@@ -198,7 +201,7 @@ const GetPost = () => {
                 >
                   Post Comment
                 </button>
-                <GetDataCommentLike postId={post._id} />
+                <GetDataCommentLike postId={post._id} userId={post.user._id} />
               </div>
             )}
           </div>

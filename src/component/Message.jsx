@@ -6,7 +6,7 @@ import ShimmerRequest from "../shimmer/ShimmerRequest";
 
 const Message = () => {
   const { theme } = useSelector((store) => store.theme);
-  const userSelector = useSelector((store) => store.connections);
+  const userSelector = useSelector((store) => store.connections)
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 const UserCard = ({ user }) => {
   const dispatch = useDispatch();
   const { _id, firstName, lastName, age, skills, photoUrl } = user;
@@ -17,8 +18,40 @@ const UserCard = ({ user }) => {
       await axios.post(BASE_URL + "/request/send/" + status + "/" + _id, {}, {
         withCredentials: true,
       });
+      
+    if (status === "interested") {
+      toast.success("Request sent successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.info("User ignored successfully.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+     
       dispatch(removeUserFromFeed(userId));
     } catch (err) {
+       toast.error("Failed to send request", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
       console.error(err);
     }
   };

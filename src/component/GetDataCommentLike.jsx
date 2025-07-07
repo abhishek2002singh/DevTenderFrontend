@@ -1,29 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BASE_URL } from '../utils/Constant'; // Adjust the import path if needed
-import { FaHeart, FaRegHeart, FaComment } from 'react-icons/fa'; // You can use these icons
-import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from 'react-icons/hi2'; // For mute/unmute functionality
-import { useSelector } from 'react-redux'; // Assuming you're using Redux to manage theme
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { BASE_URL } from "../utils/Constant"; // Adjust the import path if needed
+import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa"; // You can use these icons
+import { HiOutlineSpeakerWave, HiOutlineSpeakerXMark } from "react-icons/hi2"; // For mute/unmute functionality
+import { useSelector } from "react-redux"; // Assuming you're using Redux to manage theme
+import { Link } from "react-router-dom";
 
-const GetDataCommentLike = ({ postId }) => {
+const GetDataCommentLike = ({ postId  , userId}) => {
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [loadingLikes, setLoadingLikes] = useState(true);
   const [loadingComments, setLoadingComments] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isMuted, setIsMuted] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  
+
   const { theme } = useSelector((store) => store.theme); // Retrieve theme from Redux
 
   // Fetch likes from the server
   const fetchLikes = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/like/post/${postId}`, { withCredentials: true });
+      const response = await axios.get(`${BASE_URL}/like/post/${postId}`, {
+        withCredentials: true,
+      });
       setLikes(response.data.data);
       setLoadingLikes(false);
     } catch (err) {
-      setError('Error fetching likes.');
+      setError("Error fetching likes.");
       setLoadingLikes(false);
     }
   };
@@ -31,11 +34,13 @@ const GetDataCommentLike = ({ postId }) => {
   // Fetch comments from the server
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/comment/post/${postId}`, { withCredentials: true });
+      const response = await axios.get(`${BASE_URL}/comment/post/${postId}`, {
+        withCredentials: true,
+      });
       setComments(response.data.data);
       setLoadingComments(false);
     } catch (err) {
-      setError('Error fetching comments.');
+      setError("Error fetching comments.");
       setLoadingComments(false);
     }
   };
@@ -62,9 +67,9 @@ const GetDataCommentLike = ({ postId }) => {
   return (
     <div
       className={`relative  border rounded-lg shadow-md mx-auto flex flex-col ${
-        theme === 'dark'
-          ? 'bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800'
-          : 'bg-gray-900 text-white'
+        theme === "dark"
+          ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
+          : "bg-gray-900 text-white"
       }`}
     >
       {/* Video Element (If applicable) */}
@@ -75,18 +80,19 @@ const GetDataCommentLike = ({ postId }) => {
           muted={isMuted}
         />
         {/* Mute/Unmute Button */}
-        <button
-          onClick={handleMuteToggle}
-          className="text-3xl absolute right-5 top-5 hover:bg-gray-200 hover:text-black px-1 py-1 rounded-full"
-        >
-          {!isMuted ? <HiOutlineSpeakerWave /> : <HiOutlineSpeakerXMark />}
-        </button>
       </div>
 
       {/* Like and Comment Buttons */}
       <div className="absolute flex top-5 ml-5  items-center">
-        <button onClick={handleLikeClick} className="text-lg  bg-transparent flex items-center">
-          {isLiked ? <FaHeart size={30} color="red" /> : <FaRegHeart size={30} color="white" />}
+        <button
+          onClick={handleLikeClick}
+          className="text-lg  bg-transparent flex items-center"
+        >
+          {isLiked ? (
+            <FaHeart size={30} color="red" />
+          ) : (
+            <FaRegHeart size={30} color="white" />
+          )}
           <span className="ml-2 text-white">{likes.length || 0}</span>
         </button>
         <button className="text-lg ml-5 bg-transparent flex items-center text-white">
@@ -127,15 +133,25 @@ const GetDataCommentLike = ({ postId }) => {
           ) : (
             <ul>
               {comments.map((comment) => (
-                <li key={comment._id} className="flex items-center gap-2">
-                  <img
-                    src={comment.userId.photoUrl}
-                    alt={comment.userId.firstName}
-                    className="w-6 h-6 rounded-full"
-                  />
-                  <span>
-                    {comment.userId.firstName} {comment.userId.lastName}: {comment.commentText}
-                  </span>
+                <li key={comment._id} className="flex items-start gap-3">
+                  <Link to={`/app/profile/${comment?.userId?._id}`} >
+                  <div className="flex-shrink-0">
+                    <img
+                      src={comment.userId.photoUrl}
+                      alt={comment.userId.firstName}
+                      className="w-10 h-10 rounded-full object-cover ml-5"
+                    />
+                  </div>
+                  <div>
+             <span className="font-medium">
+                      {comment.userId.firstName} {comment.userId.lastName}
+                    </span>
+                  </div>
+                  </Link>
+                  <div className="flex flex-col">
+                    
+                    <p className="text-sm mt-1">{comment.commentText}</p>
+                  </div>
                 </li>
               ))}
             </ul>

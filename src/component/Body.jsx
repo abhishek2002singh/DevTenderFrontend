@@ -36,7 +36,7 @@ const Body = () => {
 
   return (
     <div
-      className={`min-h-screen flex flex-col ${
+      className={`min-h-screen gap-10  flex flex-col ${
         theme === "light"
           ? "bg-gray-900 text-white"
           : "bg-gradient-to-l from-[#7DC387] to-[#DBE9EA] text-gray-800"
@@ -44,7 +44,7 @@ const Body = () => {
     >
       <NavBar />
       
-      <div className="flex flex-1 relative">
+      <div className="top-14 flex flex-1 relative">
         <Sidebar />
         
         <main className="flex-1">

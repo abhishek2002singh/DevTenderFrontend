@@ -28,7 +28,7 @@ const Sidebar = () => {
   ];
 
   const sidebarStyles = {
-    base: `absolute left-0 top-0 z-40 w-64 h-full transform transition-transform duration-300 ${
+    base: `fixed left-0 top-25 z-10 w-64 h-full transform transition-transform duration-300 ${
       isSidebarOpen ? "translate-x-0" : "-translate-x-full"
     } lg:translate-x-0`,
     dark: "bg-gray-900 text-white",
@@ -81,9 +81,13 @@ const Sidebar = () => {
         onClick={toggleSidebar}
         aria-label="Toggle Sidebar"
       >
-        <FaThList size={24} className={theme === "dark" ? "text-gray-800" : "text-white"} />
+        <FaThList size={24} className={ `fixed top-5 ${theme} === "dark" ? "text-gray-800" : "text-white`} />
       </button>
+
+      
     </>
+
+    
   );
 };
 

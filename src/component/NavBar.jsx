@@ -35,7 +35,7 @@ const NavBar = () => {
 
   return (
     <div
-      className={`navbar shadow-md z-50 transition-colors duration-300 ${
+      className={`fixed navbar shadow-md z-50 transition-colors duration-300  ${
         theme === 'dark'
           ? "bg-gradient-to-l to left from-[#7DC387] to-[#DBE9EA] text-gray-800"
           : "bg-gray-900 text-white"
@@ -49,7 +49,7 @@ const NavBar = () => {
 
       <div className="flex-none gap-2">
         {/* Gold and Silver Membership */}
-        <div className="hidden sm:flex gap-2 items-center">
+        <div className="hidden  md:flex gap-2 items-center">
           <Link to="/app/gold">
           <button className="btn btn-ghost text-gold-500">
             <FaStar /> Gold Membership

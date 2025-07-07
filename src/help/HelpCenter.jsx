@@ -13,7 +13,7 @@ const HelpCenter = () => {
     <>
       {/* Help Icon */}
       <div
-        className="fixed bottom-10 right-10 bg-blue-500 p-4 rounded-full cursor-pointer shadow-lg hover:bg-blue-600 transition duration-300"
+        className="fixed z-50 bottom-10 right-10 bg-blue-500 p-4 rounded-full cursor-pointer shadow-lg hover:bg-blue-600 transition duration-300"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <FaQuestionCircle className="text-white text-2xl" />
@@ -22,7 +22,7 @@ const HelpCenter = () => {
       {/* Sidebar */}
       {isSidebarOpen && (
         <div
-          className={` absolute min-h-screen inset-y-0 right-0 w-80 md:w-96 shadow-lg z-50 p-6 transition-transform transform ${
+          className={` fixed min-h-screen top-16 inset-y-0 right-0 w-80 md:w-96 shadow-lg z-50 p-6 transition-transform transform ${
             theme === "dark"
               ? "bg-gradient-to-l from-[#DBE9EA] to-[#7DC387] text-white shadow-2xl"
               : "bg-gray-900 text-white"
