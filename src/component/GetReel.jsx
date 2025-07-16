@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setPaymentStatus } from "../utils/paymentSlice"; // Import the payment slice action
+import { useNavigate } from "react-router-dom";
 
 const GetReel = () => {
   const [reels, setReels] = useState([]);
@@ -14,6 +15,7 @@ const GetReel = () => {
   const [newComment, setNewComment] = useState("");
   const [likeCount, setLikeCount] = useState({});
   const [commentCount, setCommentCount] = useState({});
+  const navigate = useNavigate()
 
   const dispatch = useDispatch();
   const isPaymentDone = useSelector((store) => store.payment.isPaymentDone); // Get payment status from Redux store
@@ -144,10 +146,7 @@ const GetReel = () => {
                 pauseOnHover: true,
                 draggable: true,
               });
-              setTimeout(() => {
-                // Redirect to payment page
-                window.location.href = "/app/payment";
-              }, 2000);
+              setTimeout(() => navigate("/app/payment"), 2000);
             }}
           >
             Subscribe Now

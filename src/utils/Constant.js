@@ -5,4 +5,4 @@
 // const isProduction = import.meta.env.MODE === 'production';
 // export const BASE_URL = isProduction
 //   ? "https://devtenderbackend.onrender.com"
-//   : "http://localhost:7777";
+//   : "https://devtenderbackend.onrender.com";
